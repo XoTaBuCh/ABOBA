@@ -1,5 +1,6 @@
 package com.tabletka.controller;
 
+import com.tabletka.exception.UserNotUniqueException;
 import com.tabletka.model.apothecary.Apothecary;
 import com.tabletka.model.client.Client;
 import com.tabletka.service.ApothecaryService;
@@ -36,8 +37,15 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public String register(final Client client, final Model model) {
-        clientService.register(client);
-        return "auth/register";
+        String result = "successful";
+        try {
+            clientService.register(client);
+        } catch(UserNotUniqueException e) {
+            result = "unsuccessful";
+        }
+        model.addAttribute("result", result);
+
+        return "main/main";
     }
 
     @GetMapping("/register_apothecary")
@@ -51,6 +59,6 @@ public class AuthenticationController {
         model.addAttribute("registerSuccess",
                 "You applied for registration, after approving your request, you can sign in service");
 
-        return "auth/register_apothecary";
+        return "main/main";
     }
 }
