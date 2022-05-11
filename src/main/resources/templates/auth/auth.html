@@ -8,20 +8,17 @@
 </head>
 <body>
 <div class="d-grid gap-2 badge bg-info text-wrap" style="margin-bottom: 10px; font-size: 2.5rem;">
-    Welcome to bank service
+    Welcome to the Gulag
 </div>
 <div class="d-grid gap-2">
     <form class="d-grid gap-2" th:action="@{/auth/login}">
         <input class="btn btn-primary" type="submit" value="Login"/>
     </form>
     <form class="d-grid gap-2" th:action="@{/auth/register}">
-        <div aria-label="Basic checkbox toggle button group" class="btn-group" role="group">
-            <input autocomplete="off" class="btn-check" id="btncheck" name="isEnterprise" type="checkbox">
-            <label class="btn btn-outline-dark" for="btncheck">
-                Register as an Enterprise
-            </label>
-        </div>
         <input class="btn btn-primary" type="submit" value="Register"/>
+    </form>
+    <form class="d-grid gap-2" th:action="@{/auth/register_apothecary}">
+        <input class="btn btn-primary" type="submit" value="RegisterApothecary"/>
     </form>
 </div>
 </body>

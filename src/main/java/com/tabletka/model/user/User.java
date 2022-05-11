@@ -1,7 +1,6 @@
 package com.tabletka.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,11 +13,11 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 
-@Entity
-@Table(name = "usr")
-@Data
-@EqualsAndHashCode(of = "id")
-@ToString(of = { "id", "email" })
+@MappedSuperclass
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {

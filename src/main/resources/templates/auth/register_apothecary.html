@@ -19,8 +19,14 @@
     </form>
 </div>
 
+<div
+        class="d-grid gap-2 badge bg-success text-wrap label_borders"
+        style="font-size: 1.5rem;"
+        th:if="${registerSuccess != null}"
+        th:text="${registerSuccess}">
+</div>
 
-<form method="post" th:action="@{/auth/register}" th:object="${client}">
+<form method="post" th:action="@{/auth/register_apothecary}" th:if="${registerSuccess == null}" th:object="${apothecary}">
     <table class="table table-dark">
         <thead>
         <tr>
@@ -50,7 +56,7 @@
         </tr>
         </tbody>
     </table>
-    <div class="d-grid gap-2" th:action="@{/auth}">
+    <div class="d-grid gap-2">
         <input class="btn btn-success" type="submit" value="Register" width="100%"/>
     </div>
 </form>
