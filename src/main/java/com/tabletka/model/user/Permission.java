@@ -1,4 +1,4 @@
-package com.javamaster.spring_crud.model.user;
+package com.tabletka.model.user;
 
 public enum Permission {
     PERMISSION_LEVEL_1("permission1"),

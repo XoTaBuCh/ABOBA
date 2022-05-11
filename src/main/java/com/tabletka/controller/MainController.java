@@ -1,4 +1,4 @@
-package com.javamaster.spring_crud.controller;
+package com.tabletka.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

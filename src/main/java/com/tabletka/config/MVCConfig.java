@@ -1,4 +1,4 @@
-package com.javamaster.spring_crud.config;
+package com.tabletka.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

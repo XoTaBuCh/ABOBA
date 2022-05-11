@@ -1,4 +1,4 @@
-package com.javamaster.spring_crud;
+package com.tabletka;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

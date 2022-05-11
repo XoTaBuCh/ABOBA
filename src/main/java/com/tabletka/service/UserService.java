@@ -1,9 +1,9 @@
-package com.javamaster.spring_crud.service;
+package com.tabletka.service;
 
-import com.javamaster.spring_crud.model.user.Role;
-import com.javamaster.spring_crud.model.user.Status;
-import com.javamaster.spring_crud.model.user.User;
-import com.javamaster.spring_crud.repository.UserRepository;
+import com.tabletka.model.user.Role;
+import com.tabletka.model.user.Status;
+import com.tabletka.model.user.User;
+import com.tabletka.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

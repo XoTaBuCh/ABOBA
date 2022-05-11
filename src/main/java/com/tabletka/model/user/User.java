@@ -1,4 +1,4 @@
-package com.javamaster.spring_crud.model.user;
+package com.tabletka.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

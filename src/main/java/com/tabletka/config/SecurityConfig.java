@@ -1,4 +1,4 @@
-package com.javamaster.spring_crud.config;
+package com.tabletka.config;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;

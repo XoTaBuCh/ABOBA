@@ -1,7 +1,7 @@
-package com.javamaster.spring_crud.controller;
+package com.tabletka.controller;
 
-import com.javamaster.spring_crud.model.user.User;
-import com.javamaster.spring_crud.service.UserService;
+import com.tabletka.model.user.User;
+import com.tabletka.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

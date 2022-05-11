@@ -1,7 +1,7 @@
-package com.javamaster.spring_crud.dto;
+package com.tabletka.dto;
 
-import com.javamaster.spring_crud.model.user.Role;
-import com.javamaster.spring_crud.model.user.Status;
+import com.tabletka.model.user.Role;
+import com.tabletka.model.user.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
