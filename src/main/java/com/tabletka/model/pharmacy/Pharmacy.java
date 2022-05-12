@@ -1,6 +1,8 @@
 package com.tabletka.model.pharmacy;
 
+import com.tabletka.model.apothecary.Apothecary;
 import com.tabletka.model.order.Order;
+import com.tabletka.model.product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,8 +25,16 @@ public class Pharmacy {
     private Long id;
 
     private String name;
+    private String address;
 
     @OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> products = new ArrayList<>();
+
+    @ManyToOne
+    private Apothecary apothecary;
+
 
 }
