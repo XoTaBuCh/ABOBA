@@ -24,7 +24,7 @@ public class Pharmacy {
 
     private String name;
 
-    //@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<Order> orders = new ArrayList<>();
+    @OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
 
 }
