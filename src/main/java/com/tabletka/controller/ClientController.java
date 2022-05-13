@@ -1,6 +1,8 @@
 package com.tabletka.controller;
 
+import com.tabletka.exception.UserIsNotLoggedInException;
 import com.tabletka.service.impl.MedicineServiceImpl;
+import com.tabletka.service.impl.OrderServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ClientController {
 
     private MedicineServiceImpl medicineServiceImpl;
+    private OrderServiceImpl orderServiceImpl;
 
     @GetMapping("")
     public String main() {
@@ -20,15 +23,16 @@ public class ClientController {
     }
 
     @GetMapping("/shopping_cart")
-    public String shoppingCart() {
+    public String shoppingCart(final Model model) throws UserIsNotLoggedInException {
+        model.addAttribute("orders",
+                orderServiceImpl.getOrdersForClient());
         return "client/shopping_cart";
     }
 
     @GetMapping("/find")
     public String find(final Model model, String request) {
-        model.addAttribute("founded",
+        model.addAttribute("medicines",
                 medicineServiceImpl.getMedicines(request));
-        System.out.println(medicineServiceImpl.getMedicines(request));
         return "client/client_main";
     }
 

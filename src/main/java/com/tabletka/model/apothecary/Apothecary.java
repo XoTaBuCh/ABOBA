@@ -1,4 +1,5 @@
 package com.tabletka.model.apothecary;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tabletka.model.pharmacy.Pharmacy;
 import com.tabletka.model.user.User;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Apothecary extends User {
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "apothecary", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pharmacy> pharmacies;
 }

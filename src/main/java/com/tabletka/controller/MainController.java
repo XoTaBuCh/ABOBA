@@ -1,13 +1,22 @@
 package com.tabletka.controller;
 
 import com.tabletka.exception.UserIsNotLoggedInException;
+import com.tabletka.model.medicine.Medicine;
+import com.tabletka.model.product.Product;
 import com.tabletka.model.user.Role;
 import com.tabletka.model.user.User;
+import com.tabletka.repository.MedicineRepository;
 import com.tabletka.security.AuthContextHandler;
+import com.tabletka.service.impl.MedicineServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/")
@@ -15,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
 
     private final AuthContextHandler authContextHandler;
+    private MedicineServiceImpl medicineServiceImpl;
+
+
     @GetMapping("")
     public String main() {
         try {
@@ -38,6 +50,38 @@ public class MainController {
         }
     }
 
+    @GetMapping("/find")
+    public String find(final Model model, String request) {
+        model.addAttribute("medicines",
+                medicineServiceImpl.getMedicines(request));
+        return "main/main";
+    }
+
+    @GetMapping("/medicine/{id}")
+    public String mainMedicine(@PathVariable Long id, Model model) throws UserIsNotLoggedInException {
+        User user;
+        try {
+            user = authContextHandler.getLoggedInUser();
+        } catch (UserIsNotLoggedInException e) {
+            user = null;
+        }
+        Medicine medicine = medicineServiceImpl.getMedicineById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("medicine", medicine);
+        model.addAttribute("products", medicine.getProducts().isEmpty() ? null: medicine.getProducts());
+
+        return "medicine/medicine";
+    }
+
+    @PostMapping("/medicine/{id}")
+    public String mainMedicine(final Model model, @PathVariable Long id, Medicine medicine) {
+
+//        Medicine medicine = medicineRepository.getById(id);
+//        model.addAttribute("medicine", medicine);
+//        model.addAttribute("products", medicine.getProducts());
+
+        return "medicine/medicine";
+    }
 
 
 }

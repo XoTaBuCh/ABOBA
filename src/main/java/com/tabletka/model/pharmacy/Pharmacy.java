@@ -1,5 +1,6 @@
 package com.tabletka.model.pharmacy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tabletka.model.apothecary.Apothecary;
 import com.tabletka.model.order.Order;
 import com.tabletka.model.product.Product;
@@ -27,12 +28,15 @@ public class Pharmacy {
     private String name;
     private String address;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     private Apothecary apothecary;
 

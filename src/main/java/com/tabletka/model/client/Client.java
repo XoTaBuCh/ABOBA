@@ -1,4 +1,5 @@
 package com.tabletka.model.client;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tabletka.model.order.Order;
 import com.tabletka.model.user.User;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Client extends User{
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 }

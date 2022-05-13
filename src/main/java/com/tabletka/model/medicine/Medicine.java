@@ -1,5 +1,6 @@
 package com.tabletka.model.medicine;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tabletka.model.product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class Medicine {
     @Enumerated(value = EnumType.STRING)
     private MedicinesType medicinesType;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "medicine", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
 }

@@ -5,11 +5,8 @@ import com.tabletka.mapper.MedicineMapper;
 import com.tabletka.model.medicine.Medicine;
 import com.tabletka.model.product.Product;
 import com.tabletka.repository.MedicineRepository;
-import com.tabletka.repository.ProductRepository;
 import com.tabletka.service.MedicineService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,6 +35,12 @@ public class MedicineServiceImpl implements MedicineService {
             }
             newMedicines.add(medicineDTO);
         }
+        if (newMedicines.isEmpty()) return null;
         return newMedicines;
+    }
+
+    @Override
+    public Medicine getMedicineById(Long id) {
+        return medicineRepository.findById(id).get();
     }
 }
