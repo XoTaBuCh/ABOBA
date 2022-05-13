@@ -16,8 +16,8 @@
     <div class="container-fluid">
         <a class="navbar-brand">Tabletka</a>
 
-        <form class="d-flex w-50">
-            <input class="form-control me-2" type="search" placeholder="Search Medicine" aria-label="Search">
+        <form class="d-flex w-50" th:method="get" th:action="@{/client/find}">
+            <input name="request" class="form-control me-2" type="search" placeholder="Search Medicine" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
 
@@ -62,10 +62,11 @@
 </nav>
 
 <ul class="list-group mt-5">
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-        "{medicine.name}"
-        <span class="text">"{some info}"</span>
-        <span class="badge bg-primary rounded-pill">{medicine.min} .. {medicine.max}</span>
+
+    <li class="list-group-item d-flex justify-content-between align-items-center" th:each="medicine : ${founded}">
+        <span th:text="${medicine.name}"></span>
+        <span th:text="${medicine.description}"></span>
+        <span class="badge bg-primary rounded-pill" th:text="${medicine.min + ' .. '+ medicine.max}"></span>
     </li>
 
 

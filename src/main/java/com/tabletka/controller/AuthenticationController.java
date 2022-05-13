@@ -3,8 +3,8 @@ package com.tabletka.controller;
 import com.tabletka.exception.UserNotUniqueException;
 import com.tabletka.model.apothecary.Apothecary;
 import com.tabletka.model.client.Client;
-import com.tabletka.service.ApothecaryService;
-import com.tabletka.service.ClientService;
+import com.tabletka.service.impl.ApothecaryServiceImpl;
+import com.tabletka.service.impl.ClientServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/auth")
 @AllArgsConstructor
 public class AuthenticationController {
-    private final ClientService clientService;
-    private final ApothecaryService apothecaryService;
+    private final ClientServiceImpl clientServiceImpl;
+    private final ApothecaryServiceImpl apothecaryService;
 
 
     @GetMapping("")
@@ -39,7 +39,7 @@ public class AuthenticationController {
     public String register(final Client client, final Model model) {
         String result = "successful";
         try {
-            clientService.register(client);
+            clientServiceImpl.register(client);
         } catch(UserNotUniqueException e) {
             result = "unsuccessful";
         }

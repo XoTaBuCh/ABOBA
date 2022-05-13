@@ -23,13 +23,13 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private double price;
+    private Double price;
     private int amount;
     @ManyToOne(fetch = FetchType.EAGER)
     private Pharmacy pharmacy;
     @ManyToOne(fetch = FetchType.EAGER)
     private Medicine medicine;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> products = new ArrayList<>();
 }

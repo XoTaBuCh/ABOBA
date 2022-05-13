@@ -21,13 +21,13 @@ public class MainController {
             final User user = authContextHandler.getLoggedInUser();
             switch (user.getRole()) {
                 case CLIENT -> {
-                    return "client/client_main";
+                    return "redirect:client";
                 }
                 case APOTHECARY -> {
-                    return "apothecary/apothecary_main";
+                    return "redirect:apothecary";
                 }
                 case ADMIN -> {
-                    return "admin/admin_main";
+                    return "redirect:admin";
                 }
                 default -> {
                     return "main/main";
