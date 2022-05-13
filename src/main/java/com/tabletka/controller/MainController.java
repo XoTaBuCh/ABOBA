@@ -74,11 +74,17 @@ public class MainController {
     }
 
     @PostMapping("/medicine/{id}")
-    public String mainMedicine(final Model model, @PathVariable Long id, Medicine medicine) {
-
-//        Medicine medicine = medicineRepository.getById(id);
-//        model.addAttribute("medicine", medicine);
-//        model.addAttribute("products", medicine.getProducts());
+    public String mainMedicine(final Model model, @PathVariable Long id, Long amount, Long pharmacyId) {
+        User user;
+        try {
+            user = authContextHandler.getLoggedInUser();
+        } catch (UserIsNotLoggedInException e) {
+            user = null;
+        }
+        Medicine medicine = medicineServiceImpl.getMedicineById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("medicine", medicine);
+        model.addAttribute("products", medicine.getProducts().isEmpty() ? null: medicine.getProducts());
 
         return "medicine/medicine";
     }
