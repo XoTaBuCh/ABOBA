@@ -32,5 +32,5 @@ public class Product {
     private Medicine medicine;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL)
-    private List<Order> products = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
 }

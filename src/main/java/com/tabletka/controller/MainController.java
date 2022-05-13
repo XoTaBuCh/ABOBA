@@ -2,13 +2,10 @@ package com.tabletka.controller;
 
 import com.tabletka.exception.UserIsNotLoggedInException;
 import com.tabletka.model.medicine.Medicine;
-import com.tabletka.model.product.Product;
-import com.tabletka.model.user.Role;
 import com.tabletka.model.user.User;
-import com.tabletka.repository.MedicineRepository;
 import com.tabletka.security.AuthContextHandler;
-import com.tabletka.service.impl.MedicineServiceImpl;
-import com.tabletka.service.impl.OrderServiceImpl;
+import com.tabletka.service.MedicineService;
+import com.tabletka.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,16 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
-
 @Controller
 @RequestMapping("/")
 @AllArgsConstructor
 public class MainController {
 
     private final AuthContextHandler authContextHandler;
-    private final MedicineServiceImpl medicineServiceImpl;
-    private final OrderServiceImpl orderServiceImpl;
+    private final MedicineService medicineService;
+    private final OrderService orderService;
 
     @GetMapping("")
     public String main() {
@@ -54,7 +49,7 @@ public class MainController {
     @GetMapping("/find")
     public String find(final Model model, String request) {
         model.addAttribute("medicines",
-                medicineServiceImpl.getMedicines(request));
+                medicineService.getMedicines(request));
         return "main/main";
     }
 
@@ -66,8 +61,7 @@ public class MainController {
         } catch (UserIsNotLoggedInException e) {
             user = null;
         }
-        Medicine medicine = medicineServiceImpl.getMedicineById(id);
-        System.out.println(medicine.getProducts());
+        Medicine medicine = medicineService.getMedicineById(id);
         model.addAttribute("user", user);
         model.addAttribute("medicine", medicine);
         model.addAttribute("products", medicine.getProducts().isEmpty() ? null : medicine.getProducts());
@@ -77,9 +71,9 @@ public class MainController {
 
     @PostMapping("/medicine/{id}")
     public String mainMedicine(@PathVariable Long id, Long amount, Long productId) throws UserIsNotLoggedInException {
-        orderServiceImpl.makeOrder(productId, amount);
+        Medicine medicine = medicineService.getMedicineById(id);
+        orderService.makeOrder(productId, amount);
         return "redirect:/medicine/" + id.toString();
     }
-
 
 }

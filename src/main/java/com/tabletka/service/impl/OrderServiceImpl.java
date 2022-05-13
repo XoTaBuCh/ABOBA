@@ -6,14 +6,12 @@ import com.tabletka.model.order.Order;
 import com.tabletka.model.order.OrderStatus;
 import com.tabletka.model.pharmacy.Pharmacy;
 import com.tabletka.model.product.Product;
-import com.tabletka.repository.ClientRepository;
 import com.tabletka.repository.OrderRepository;
 import com.tabletka.repository.PharmacyRepository;
 import com.tabletka.repository.ProductRepository;
 import com.tabletka.security.AuthContextHandler;
 import com.tabletka.service.OrderService;
 import lombok.AllArgsConstructor;
-import org.aspectj.apache.bcel.generic.InstructionConstants;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,18 +37,24 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void makeOrder(Long ProductId, Long amount) throws UserIsNotLoggedInException {
+    public void makeOrder(Long productId, Long amount) throws UserIsNotLoggedInException {
         Client client = (Client) authContextHandler.getLoggedInUser();
-        Product product = productRepository.findById(ProductId).get();
+        Product product = productRepository.findProductById(productId);
 
         Order order = new Order();
         order.setClient(client);
         order.setAmount(amount);
-        order.setStatus(OrderStatus.ACTIVE);
         order.setPharmacy(product.getPharmacy());
         order.setProduct(product);
         order.setPrice(product.getPrice() * amount);
-        product.setAmount(product.getAmount() - amount);
+
+        if (product.getAmount() < amount) {
+            order.setStatus(OrderStatus.CANCELED);
+
+        } else {
+            order.setStatus(OrderStatus.ACTIVE);
+            product.setAmount(product.getAmount() - amount);
+        }
 
         productRepository.save(product);
         orderRepository.save(order);

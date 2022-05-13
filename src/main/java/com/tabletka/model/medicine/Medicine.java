@@ -13,8 +13,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "medicine")
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Medicine {
