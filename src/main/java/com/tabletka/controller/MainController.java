@@ -8,6 +8,7 @@ import com.tabletka.model.user.User;
 import com.tabletka.repository.MedicineRepository;
 import com.tabletka.security.AuthContextHandler;
 import com.tabletka.service.impl.MedicineServiceImpl;
+import com.tabletka.service.impl.OrderServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,8 +25,8 @@ import java.util.ArrayList;
 public class MainController {
 
     private final AuthContextHandler authContextHandler;
-    private MedicineServiceImpl medicineServiceImpl;
-
+    private final MedicineServiceImpl medicineServiceImpl;
+    private final OrderServiceImpl orderServiceImpl;
 
     @GetMapping("")
     public String main() {
@@ -66,27 +67,18 @@ public class MainController {
             user = null;
         }
         Medicine medicine = medicineServiceImpl.getMedicineById(id);
+        System.out.println(medicine.getProducts());
         model.addAttribute("user", user);
         model.addAttribute("medicine", medicine);
-        model.addAttribute("products", medicine.getProducts().isEmpty() ? null: medicine.getProducts());
+        model.addAttribute("products", medicine.getProducts().isEmpty() ? null : medicine.getProducts());
 
         return "medicine/medicine";
     }
 
     @PostMapping("/medicine/{id}")
-    public String mainMedicine(final Model model, @PathVariable Long id, Long amount, Long pharmacyId) {
-        User user;
-        try {
-            user = authContextHandler.getLoggedInUser();
-        } catch (UserIsNotLoggedInException e) {
-            user = null;
-        }
-        Medicine medicine = medicineServiceImpl.getMedicineById(id);
-        model.addAttribute("user", user);
-        model.addAttribute("medicine", medicine);
-        model.addAttribute("products", medicine.getProducts().isEmpty() ? null: medicine.getProducts());
-
-        return "medicine/medicine";
+    public String mainMedicine(@PathVariable Long id, Long amount, Long productId) throws UserIsNotLoggedInException {
+        orderServiceImpl.makeOrder(productId, amount);
+        return "redirect:/medicine/" + id.toString();
     }
 
 

@@ -29,7 +29,6 @@ public class Medicine {
     @Enumerated(value = EnumType.STRING)
     private MedicinesType medicinesType;
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "medicine", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "medicine", cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<>();
 }

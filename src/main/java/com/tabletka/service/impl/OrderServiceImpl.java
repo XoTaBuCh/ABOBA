@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void makeOrder(Long ProductId, int amount) throws UserIsNotLoggedInException {
+    public void makeOrder(Long ProductId, Long amount) throws UserIsNotLoggedInException {
         Client client = (Client) authContextHandler.getLoggedInUser();
         Product product = productRepository.findById(ProductId).get();
 
@@ -50,7 +50,9 @@ public class OrderServiceImpl implements OrderService {
         order.setPharmacy(product.getPharmacy());
         order.setProduct(product);
         order.setPrice(product.getPrice() * amount);
+        product.setAmount(product.getAmount() - amount);
 
+        productRepository.save(product);
         orderRepository.save(order);
     }
 }

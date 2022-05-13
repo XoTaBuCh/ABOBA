@@ -28,15 +28,15 @@ public class Pharmacy {
     private String name;
     private String address;
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pharmacy", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pharmacy", cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<>();
 
-    @JsonIgnore
+
     @ManyToOne(fetch = FetchType.EAGER)
     private Apothecary apothecary;
 

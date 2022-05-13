@@ -25,13 +25,12 @@ public class Product {
     private Long id;
 
     private Double price;
-    private int amount;
+    private Long amount;
     @ManyToOne(fetch = FetchType.EAGER)
     private Pharmacy pharmacy;
     @ManyToOne(fetch = FetchType.EAGER)
     private Medicine medicine;
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL)
     private List<Order> products = new ArrayList<>();
 }

@@ -24,7 +24,7 @@ public class Order {
     private Long id;
 
     private double price;
-    private int amount;
+    private Long amount;
 
     @Enumerated(value = EnumType.STRING)
     private OrderStatus status;

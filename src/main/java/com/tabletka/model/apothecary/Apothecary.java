@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Apothecary extends User {
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "apothecary", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "apothecary", cascade = CascadeType.ALL)
     private List<Pharmacy> pharmacies;
 }
