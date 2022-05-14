@@ -9,7 +9,7 @@
 
 </head>
 <body>
-<div class="d-grid gap-2 badge bg-info text-wrap" style="margin-bottom: 10px; font-size: 2.5rem;">
+<div class="d-grid gap-2 badge bg-primary text-wrap" style="margin-bottom: 10px; font-size: 2.5rem;">
     Welcome to the Gulag
 </div>
 <nav class="navbar navbar-light bg-light w-75 mx-auto">
@@ -17,7 +17,7 @@
         <a class="navbar-brand">Tabletka</a>
 
         <form class="d-grid gap-2" th:action="@{/}">
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-success">
                 Fuck go Back
             </button>
         </form>
@@ -60,12 +60,12 @@
 
 
 <ul class="list-group mt-5 w-75 mx-auto">
-    <li class="list-group-item d-flex justify-content-between align-items-center" th:if="${products != null}">
-        <span class="text-wrap">Pharmacy</span>
-        <span class="text-wrap">Address</span>
-        <span class="text-wrap">Amount</span>
-        <span class="text-wrap">Price</span>
-        <span class="text-wrap" th:if="${user != null}">Order</span>
+    <li class="list-group-item d-flex justify-content-between align-items-center bg-primary" th:if="${products != null}">
+        <span class="text-white">Pharmacy</span>
+        <span class="text-white">Address</span>
+        <span class="text-white">Amount</span>
+        <span class="text-white">Price</span>
+        <span class="text-white" th:if="${user != null}">Order</span>
 
     </li>
 

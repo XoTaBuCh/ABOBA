@@ -14,6 +14,7 @@ import com.tabletka.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersForPharmacy(Long pharmacyId) {
-        Pharmacy pharmacy = pharmacyRepository.findById(pharmacyId).get();
+        Pharmacy pharmacy = pharmacyRepository.findPharmacyById(pharmacyId);
         return pharmacy.getOrders();
     }
 
@@ -58,5 +59,17 @@ public class OrderServiceImpl implements OrderService {
 
         productRepository.save(product);
         orderRepository.save(order);
+    }
+
+    @Override
+    public List<Order> getActiveOrdersForPharmacy(Pharmacy pharmacy) {
+        List<Order> orders = orderRepository.findOrdersByPharmacy(pharmacy);
+        List<Order> newOrders = new ArrayList<>();
+        for (Order order: orders) {
+            if (order.getStatus() == OrderStatus.ACTIVE){
+                newOrders.add(order);
+            }
+        }
+        return newOrders;
     }
 }

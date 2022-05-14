@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return admin.getUserDetails();
         } else if (client != null) {
             return client.getUserDetails();
-        } else if (apothecary == null) {
+        } else if (apothecary != null) {
             return apothecary.getUserDetails();
         } else {
             throw new UsernameNotFoundException("User not found");
