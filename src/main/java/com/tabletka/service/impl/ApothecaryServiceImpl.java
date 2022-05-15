@@ -18,6 +18,7 @@ public class ApothecaryServiceImpl implements ApothecaryService {
 
     @Override
     public void register(final Apothecary apothecary) {
+        System.out.println(apothecary.getUsername());
         apothecary.setStatus(Status.ACTIVE);
         apothecary.setRole(Role.APOTHECARY);
         apothecary.setPassword(encoder.encode(apothecary.getPassword()));

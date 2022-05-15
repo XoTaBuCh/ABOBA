@@ -9,6 +9,7 @@ import com.tabletka.model.product.Product;
 import com.tabletka.model.user.User;
 import com.tabletka.security.AuthContextHandler;
 import com.tabletka.service.MedicineService;
+import com.tabletka.service.OrderService;
 import com.tabletka.service.PharmacyService;
 import com.tabletka.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class PharmacyController {
     private final PharmacyService pharmacyService;
     private final ProductService productService;
     private final MedicineService medicineService;
+    private final OrderService orderService;
 
 
     @GetMapping("/{id}")
@@ -75,6 +77,18 @@ public class PharmacyController {
         pharmacyService.addProduct(phId, newMedicine.getId(), amount, price);
 
         return "redirect:/pharmacy/" + phId.toString() + "/add_product";
+    }
+
+    @GetMapping("/{phId}/orders")
+    public String getOrders(@PathVariable Long phId, Model model) {
+        model.addAttribute("orders", pharmacyService.getPharmacyOrders(phId));
+        return "pharmacy/orders";
+    }
+
+    @PostMapping("/{phId}/orders")
+    public String getOrders(@PathVariable Long phId, String flag, Long orderId) {
+        orderService.changeOrderInfo(flag, orderId);
+        return "redirect:/pharmacy/" + phId.toString() + "/orders";
     }
 
 }

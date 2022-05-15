@@ -34,7 +34,6 @@ public class ApothecaryController {
 
     @PostMapping("/add_pharmacy")
     public String register_apothecary(final Pharmacy pharmacy, final Model model) throws UserIsNotLoggedInException {
-        System.out.println(pharmacy.getId());
         pharmacyService.addPharmacy(pharmacy);
         model.addAttribute("registerSuccess",
                 "true");

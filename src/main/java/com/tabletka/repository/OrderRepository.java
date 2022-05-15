@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findOrdersByPharmacy(Pharmacy pharmacy);
+
+    Order findOrderById(Long orderId);
 }

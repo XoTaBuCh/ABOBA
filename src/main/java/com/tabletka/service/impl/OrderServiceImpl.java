@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -71,5 +72,18 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         return newOrders;
+    }
+
+    @Override
+    public void changeOrderInfo(String flag, Long orderId) {
+        Order order = orderRepository.findOrderById(orderId);
+
+        if (Objects.equals(flag, "true")) {
+            order.setStatus(OrderStatus.DONE);
+        }
+        else {
+            order.setStatus(OrderStatus.CANCELED);
+        }
+        orderRepository.save(order);
     }
 }

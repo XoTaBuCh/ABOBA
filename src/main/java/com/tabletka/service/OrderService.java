@@ -14,4 +14,6 @@ public interface OrderService {
     void makeOrder(Long ProductId, Long amount) throws UserIsNotLoggedInException;
 
     List<Order> getActiveOrdersForPharmacy(Pharmacy pharmacy);
+
+    void changeOrderInfo(String flag, Long orderId);
 }

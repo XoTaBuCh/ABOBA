@@ -3,6 +3,7 @@ package com.tabletka.service;
 import com.tabletka.exception.UserIsNotLoggedInException;
 import com.tabletka.model.apothecary.Apothecary;
 import com.tabletka.model.medicine.Medicine;
+import com.tabletka.model.order.Order;
 import com.tabletka.model.pharmacy.Pharmacy;
 import org.springframework.data.util.Pair;
 
@@ -18,4 +19,6 @@ public interface PharmacyService {
     void changeProductInfo(Long id, Long amount, Double price);
 
     void addProduct(Long pharmacyId, Long medicineId, Long amount, Double price);
+
+    List<Order> getPharmacyOrders(Long phId);
 }

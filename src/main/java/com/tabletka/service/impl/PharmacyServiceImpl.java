@@ -3,6 +3,8 @@ package com.tabletka.service.impl;
 import com.tabletka.exception.UserIsNotLoggedInException;
 import com.tabletka.model.apothecary.Apothecary;
 import com.tabletka.model.medicine.Medicine;
+import com.tabletka.model.order.Order;
+import com.tabletka.model.order.OrderStatus;
 import com.tabletka.model.pharmacy.Pharmacy;
 import com.tabletka.model.product.Product;
 import com.tabletka.repository.MedicineRepository;
@@ -73,6 +75,21 @@ public class PharmacyServiceImpl implements PharmacyService {
         product.setMedicine(medicineRepository.findMedicineById(medicineId));
 
         productRepository.save(product);
+    }
+
+    @Override
+    public List<Order> getPharmacyOrders(Long phId) {
+        List<Order> orders = pharmacyRepository.findPharmacyById(phId).getOrders();
+        List<Order> activeOrders = new ArrayList<>();
+
+        for (Order order: orders) {
+            if (order.getStatus() == OrderStatus.ACTIVE) {
+                activeOrders.add(order);
+            }
+        }
+
+        if (activeOrders.isEmpty()) return null;
+        return activeOrders;
     }
 
 }
