@@ -6,6 +6,10 @@ import com.tabletka.model.medicine.Medicine;
 import java.util.List;
 
 public interface MedicineService {
-    List<MedicineDTO> getMedicines(String name);
+    List<MedicineDTO> getMedicinesByName(String name);
     Medicine getMedicineById(Long id);
+
+    List<Medicine> getAllMedicines();
+
+    Medicine addMedicine(Medicine medicine);
 }

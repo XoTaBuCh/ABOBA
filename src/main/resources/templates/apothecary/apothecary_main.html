@@ -89,7 +89,7 @@
 
     <li class="list-group-item d-flex justify-content-between align-items-center" th:each="pharmacy : ${pharmacies}">
         <span th:text="${pharmacy.first.id}"></span>
-        <a th:href="@{'/medicine/' + ${pharmacy.first.id}}" th:text="${pharmacy.first.name}"></a>
+        <a th:href="@{'/pharmacy/' + ${pharmacy.first.id}}" th:text="${pharmacy.first.name}"></a>
         <span th:text="${pharmacy.first.address}"></span>
         <span class="badge bg-primary rounded-pill" th:text="${pharmacy.second}"></span>
     </li>

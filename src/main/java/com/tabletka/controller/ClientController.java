@@ -32,7 +32,7 @@ public class ClientController {
     @GetMapping("/find")
     public String find(final Model model, String request) {
         model.addAttribute("medicines",
-                medicineServiceImpl.getMedicines(request));
+                medicineServiceImpl.getMedicinesByName(request));
         return "client/client_main";
     }
 

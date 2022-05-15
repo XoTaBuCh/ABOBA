@@ -21,15 +21,15 @@ public class MedicineServiceImpl implements MedicineService {
     private final MedicineMapper medicineMapper;
 
     @Override
-    public List<MedicineDTO> getMedicines(String name) {
-        List<Medicine> medicines =  medicineRepository.findByNameContaining(name);
+    public List<MedicineDTO> getMedicinesByName(String name) {
+        List<Medicine> medicines = medicineRepository.findByNameContaining(name);
         List<MedicineDTO> newMedicines = new ArrayList<>();
-        for (Medicine medicine: medicines) {
+        for (Medicine medicine : medicines) {
             List<Product> products = medicine.getProducts();
 
             MedicineDTO medicineDTO = medicineMapper.toDTO(medicine);
 
-            if (!products.isEmpty()){
+            if (!products.isEmpty()) {
                 medicineDTO.setMax(Collections.max(products, Comparator.comparing(Product::getPrice)).getPrice());
                 medicineDTO.setMin(Collections.min(products, Comparator.comparing(Product::getPrice)).getPrice());
             }
@@ -42,5 +42,16 @@ public class MedicineServiceImpl implements MedicineService {
     @Override
     public Medicine getMedicineById(Long id) {
         return medicineRepository.findMedicineById(id);
+    }
+
+    @Override
+    public List<Medicine> getAllMedicines() {
+        return medicineRepository.findAll();
+    }
+
+    @Override
+    public Medicine addMedicine(Medicine medicine) {
+
+        return medicineRepository.save(medicine);
     }
 }
