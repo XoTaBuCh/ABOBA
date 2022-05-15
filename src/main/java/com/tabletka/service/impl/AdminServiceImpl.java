@@ -7,7 +7,6 @@ import com.tabletka.repository.AdminRepository;
 import com.tabletka.service.AdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service

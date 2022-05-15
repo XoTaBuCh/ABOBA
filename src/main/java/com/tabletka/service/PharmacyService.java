@@ -14,6 +14,8 @@ public interface PharmacyService {
 
     void addPharmacy(Pharmacy pharmacy) throws UserIsNotLoggedInException;
 
+    void addPharmacy(String name, String address, Long apothecaryId);
+
     Pharmacy getPharmacyById(Long id);
 
     void changeProductInfo(Long id, Long amount, Double price);

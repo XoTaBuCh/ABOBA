@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ApothecaryRepository extends JpaRepository<Apothecary, Long> {
     Apothecary findByEmail(String email);
+    Apothecary findApothecaryById(Long Id);
 }
