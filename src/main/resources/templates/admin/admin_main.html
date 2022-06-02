@@ -65,6 +65,18 @@
     </div>
 </nav>
 
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" th:href="@{/admin/requests}">Requests</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/admin/pharmacies}">Pharmacies</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/admin/users}">Users</a>
+    </li>
+</ul>
+
 <div class="d-grid gap-2">
     <form class="d-grid gap-2 w-25 mt-3 mx-auto" th:action="@{/admin/requests}">
         <input class="btn btn-primary" type="submit" value="Requests"/>

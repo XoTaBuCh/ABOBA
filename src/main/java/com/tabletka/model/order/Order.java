@@ -23,7 +23,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private double price;
+    private Double price;
     private Long amount;
 
     @Enumerated(value = EnumType.STRING)
