@@ -32,7 +32,6 @@ public class PharmacyServiceImpl implements PharmacyService {
     private final ApothecaryRepository apothecaryRepository;
 
 
-
     @Override
     public List<Pair<Pharmacy, Long>> getPharmaciesForApothecary() throws UserIsNotLoggedInException {
         Apothecary apothecary = ((Apothecary) authContextHandler.getLoggedInUser());
@@ -100,7 +99,7 @@ public class PharmacyServiceImpl implements PharmacyService {
         List<Order> orders = pharmacyRepository.findPharmacyById(phId).getOrders();
         List<Order> activeOrders = new ArrayList<>();
 
-        for (Order order: orders) {
+        for (Order order : orders) {
             if (order.getStatus() == OrderStatus.ACTIVE) {
                 activeOrders.add(order);
             }
@@ -108,6 +107,20 @@ public class PharmacyServiceImpl implements PharmacyService {
 
         if (activeOrders.isEmpty()) return null;
         return activeOrders;
+    }
+
+
+    @Override
+    public void changePharmacyNameAddress(String name, String address, Long pharmacyId) {
+        Pharmacy pharmacy = pharmacyRepository.findPharmacyById(pharmacyId);
+        pharmacy.setName(name);
+        pharmacy.setAddress(address);
+        pharmacyRepository.save(pharmacy);
+    }
+
+    @Override
+    public List<Pharmacy> getPharmacies() {
+        return pharmacyRepository.findAll();
     }
 
 }

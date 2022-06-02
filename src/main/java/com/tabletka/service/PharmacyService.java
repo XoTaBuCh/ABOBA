@@ -23,4 +23,8 @@ public interface PharmacyService {
     void addProduct(Long pharmacyId, Long medicineId, Long amount, Double price);
 
     List<Order> getPharmacyOrders(Long phId);
+
+    void changePharmacyNameAddress(String name, String address, Long pharmacyId);
+
+    List<Pharmacy> getPharmacies();
 }

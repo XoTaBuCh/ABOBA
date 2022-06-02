@@ -12,6 +12,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
+
 @Service
 @AllArgsConstructor
 public class ApothecaryServiceImpl implements ApothecaryService {
@@ -35,6 +38,22 @@ public class ApothecaryServiceImpl implements ApothecaryService {
         apothecary.setRole(Role.APOTHECARY);
         apothecary.setPassword(password);
         apothecary.setEmail(email);
+        apothecaryRepository.save(apothecary);
+    }
+
+    @Override
+    public List<Apothecary> getApothecaries() {
+        return apothecaryRepository.findAll();
+    }
+
+    @Override
+    public void changeApothecaryStatus(String flag, Long userId) {
+        Apothecary apothecary = apothecaryRepository.findApothecaryById(userId);
+        if (Objects.equals(flag, "unban")) {
+            apothecary.setStatus(Status.ACTIVE);
+        } else if (Objects.equals(flag, "ban")){
+            apothecary.setStatus(Status.BANNED);
+        }
         apothecaryRepository.save(apothecary);
     }
 }

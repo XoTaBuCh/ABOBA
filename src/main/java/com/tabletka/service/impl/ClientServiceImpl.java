@@ -1,5 +1,6 @@
 package com.tabletka.service.impl;
 import com.tabletka.model.admin.Admin;
+import com.tabletka.model.apothecary.Apothecary;
 import com.tabletka.model.client.Client;
 import com.tabletka.model.user.Role;
 import com.tabletka.model.user.Status;
@@ -10,6 +11,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -23,12 +27,22 @@ public class ClientServiceImpl implements ClientService {
         client.setRole(Role.CLIENT);
         client.setPassword(encoder.encode(client.getPassword()));
         clientRepository.save(client);
-        //Admin admin = new Admin();
-        //admin.setPassword(encoder.encode(client.getPassword()));
-        //admin.setRole(Role.ADMIN);
-        //admin.setStatus(Status.ACTIVE);
-        //admin.setEmail(client.getEmail());
-        //adminRepository.save(admin);
+    }
+
+    @Override
+    public List<Client> getClients(){
+        return clientRepository.findAll();
+    }
+
+    @Override
+    public void changeClientStatus(String flag, Long userId) {
+        Client client = clientRepository.findClientById(userId);
+        if (Objects.equals(flag, "unban")) {
+            client.setStatus(Status.ACTIVE);
+        } else if (Objects.equals(flag, "ban")){
+            client.setStatus(Status.BANNED);
+        }
+        clientRepository.save(client);
     }
 
 }
