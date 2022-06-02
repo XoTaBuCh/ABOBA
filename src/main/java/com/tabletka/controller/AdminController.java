@@ -62,10 +62,6 @@ public class AdminController {
 
     @PostMapping("/users")
     public String getUsers(final String flag, final String flag2, final Long userId) {
-        System.out.println(flag);
-        System.out.println(flag2);
-        System.out.println(userId);
-
         if (Objects.equals(flag2, "client")) {
             clientService.changeClientStatus(flag, userId);
         } else if (Objects.equals(flag2, "apothecary")){

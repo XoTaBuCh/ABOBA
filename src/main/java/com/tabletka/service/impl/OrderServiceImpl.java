@@ -83,6 +83,9 @@ public class OrderServiceImpl implements OrderService {
         }
         else {
             order.setStatus(OrderStatus.CANCELED);
+            Product product = productRepository.findProductById(order.getProduct().getId());
+            product.setAmount(product.getAmount() + order.getAmount());
+            productRepository.save(product);
         }
         orderRepository.save(order);
     }
