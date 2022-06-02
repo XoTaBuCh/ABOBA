@@ -1,5 +1,6 @@
 package com.tabletka.config;
 
+import com.tabletka.model.user.Permission;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                    .antMatchers("/**", "/auth/**").permitAll()
+                    .antMatchers("/admin/**").hasAuthority(Permission.PERMISSION_LEVEL_3.getPermission())
+                    .antMatchers("/apothecary/**").hasAuthority(Permission.PERMISSION_LEVEL_2.getPermission())
+                    .antMatchers("/", "/find", "/medicine/{id}", "/pharmacy/{id}", "/auth/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
