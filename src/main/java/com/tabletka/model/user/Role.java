@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 
 public enum Role {
     CLIENT(Set.of(Permission.PERMISSION_LEVEL_1)),
-    APOTHECARY(Set.of(Permission.PERMISSION_LEVEL_1, Permission.PERMISSION_LEVEL_2)),
-    ADMIN(Set.of(Permission.PERMISSION_LEVEL_1, Permission.PERMISSION_LEVEL_2, Permission.PERMISSION_LEVEL_3));
+    APOTHECARY(Set.of(Permission.PERMISSION_LEVEL_2)),
+    ADMIN(Set.of(Permission.PERMISSION_LEVEL_3));
 
     private final Set<Permission> permission;
 

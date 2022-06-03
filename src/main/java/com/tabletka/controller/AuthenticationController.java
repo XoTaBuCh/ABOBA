@@ -48,7 +48,7 @@ public class AuthenticationController {
         }
         model.addAttribute("result", result);
 
-        return "main/main";
+        return "auth/register";
     }
 
     @GetMapping("/register_apothecary")
@@ -62,6 +62,6 @@ public class AuthenticationController {
         model.addAttribute("registerSuccess",
                 "You applied for registration, after approving your request, you can sign in service");
 
-        return "main/main";
+        return "auth/register_apothecary";
     }
 }
