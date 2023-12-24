@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -40,6 +41,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElse(null);
     }
 
+    @Override
     public Double getOrderPrice() throws UserIsNotLoggedInException {
         List<Order> orders = ((Client) authContextHandler.getLoggedInUser()).getOrders();
         return orders.stream()
@@ -47,6 +49,14 @@ public class OrderServiceImpl implements OrderService {
                 .map(Order::getPrice)
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public List<Order> getOrdersHistory() throws UserIsNotLoggedInException {
+        List<Order> orders = ((Client) authContextHandler.getLoggedInUser()).getOrders();
+        return orders.stream()
+                .filter(order -> !order.getStatus().equals(OrderStatus.BUILD))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -110,7 +120,7 @@ public class OrderServiceImpl implements OrderService {
             order.setStatus(OrderStatus.DONE);
         } else {
             order.setStatus(OrderStatus.CANCELED);
-            for (OrderItem item: order.getItems()) {
+            for (OrderItem item : order.getItems()) {
                 Product product = productRepository.findProductById(item.getProduct().getId());
                 product.setAmount(product.getAmount() + item.getAmount());
                 productRepository.save(product);
