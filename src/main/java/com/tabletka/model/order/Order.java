@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -24,7 +26,6 @@ public class Order {
     private Long id;
 
     private Double price;
-    private Long amount;
 
     @Enumerated(value = EnumType.STRING)
     private OrderStatus status;
@@ -33,9 +34,8 @@ public class Order {
     private Client client;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private Product product;
-
-    @ManyToOne(fetch = FetchType.EAGER)
     private Pharmacy pharmacy;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> items = new ArrayList<>();
 }

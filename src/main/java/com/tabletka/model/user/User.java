@@ -59,6 +59,8 @@ public class User implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    private String telegramId;
+
     public UserDetails getUserDetails() {
         return new org.springframework.security.core.userdetails.User(
                 this.getUsername(),

@@ -8,6 +8,9 @@ import com.tabletka.model.responses.TelegramApothecaryGetOrdersResponse;
 import com.tabletka.model.responses.TelegramClientGetOrdersResponse;
 import com.tabletka.model.responses.TelegramLoginResponse;
 import com.tabletka.model.user.Role;
+import com.tabletka.security.UserDetailsServiceImpl;
+import com.tabletka.service.AuthService;
+import lombok.AllArgsConstructor;
 import org.apache.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +20,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@AllArgsConstructor
 public class TelegramController {
+
+    private AuthService authService;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody TelegramLoginRequest request) {
         try {
-            // проверяем есть ли юзер
-
-            Role role = Role.CLIENT;
+            String role = authService.registerUserFromTelegram(request);
             return ResponseEntity.ok(new TelegramLoginResponse(HttpStatus.SC_OK, role));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(new TelegramLoginResponse(HttpStatus.SC_BAD_REQUEST, "Invalid login or password"));
+                    .body(new TelegramLoginResponse(HttpStatus.SC_BAD_REQUEST, e.getMessage()));
         }
     }
 

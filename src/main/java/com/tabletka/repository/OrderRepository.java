@@ -1,5 +1,6 @@
 package com.tabletka.repository;
 
+import com.tabletka.model.client.Client;
 import com.tabletka.model.order.Order;
 import com.tabletka.model.pharmacy.Pharmacy;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findOrdersByPharmacy(Pharmacy pharmacy);
 
     Order findOrderById(Long orderId);
+
+    List<Order> findAllByClient(Client client);
 }

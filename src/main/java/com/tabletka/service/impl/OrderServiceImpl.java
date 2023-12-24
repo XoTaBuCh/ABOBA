@@ -3,9 +3,11 @@ package com.tabletka.service.impl;
 import com.tabletka.exception.UserIsNotLoggedInException;
 import com.tabletka.model.client.Client;
 import com.tabletka.model.order.Order;
+import com.tabletka.model.order.OrderItem;
 import com.tabletka.model.order.OrderStatus;
 import com.tabletka.model.pharmacy.Pharmacy;
 import com.tabletka.model.product.Product;
+import com.tabletka.repository.OrderItemRepository;
 import com.tabletka.repository.OrderRepository;
 import com.tabletka.repository.PharmacyRepository;
 import com.tabletka.repository.ProductRepository;
@@ -25,11 +27,17 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
     private final PharmacyRepository pharmacyRepository;
     private final AuthContextHandler authContextHandler;
+    private final OrderItemRepository orderItemRepository;
 
 
     @Override
-    public List<Order> getOrdersForClient() throws UserIsNotLoggedInException {
-        return ((Client) authContextHandler.getLoggedInUser()).getOrders();
+    public List<OrderItem> getCartForClient() throws UserIsNotLoggedInException {
+        List<Order> orders = ((Client) authContextHandler.getLoggedInUser()).getOrders();
+        return orders.stream()
+                .filter(order -> order.getStatus().equals(OrderStatus.BUILD))
+                .map(Order::getItems)
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
@@ -42,32 +50,42 @@ public class OrderServiceImpl implements OrderService {
     public void makeOrder(Long productId, Long amount) throws UserIsNotLoggedInException {
         Client client = (Client) authContextHandler.getLoggedInUser();
         Product product = productRepository.findProductById(productId);
+        Order order = orderRepository.findAllByClient(client).stream()
+                .filter(ord -> ord.getStatus().equals(OrderStatus.BUILD))
+                .findFirst()
+                .orElse(null);
 
-        Order order = new Order();
-        order.setClient(client);
-        order.setAmount(amount);
-        order.setPharmacy(product.getPharmacy());
-        order.setProduct(product);
-        order.setPrice(product.getPrice() * amount);
+        if (Objects.isNull(order)) {
+            order = new Order();
+            order.setClient(client);
+            order.setStatus(OrderStatus.BUILD);
+            order.setPharmacy(product.getPharmacy());
+        }
+
+        order.setPrice(order.getPrice() + (product.getPrice() * amount));
+        OrderItem orderItem = new OrderItem();
+        orderItem.setAmount(amount);
+        orderItem.setProduct(product);
+        orderItem.setOrder(order);
 
         if (product.getAmount() < amount) {
             order.setStatus(OrderStatus.CANCELED);
 
         } else {
-            order.setStatus(OrderStatus.ACTIVE);
             product.setAmount(product.getAmount() - amount);
         }
 
         productRepository.save(product);
         orderRepository.save(order);
+        orderItemRepository.save(orderItem);
     }
 
     @Override
     public List<Order> getActiveOrdersForPharmacy(Pharmacy pharmacy) {
         List<Order> orders = orderRepository.findOrdersByPharmacy(pharmacy);
         List<Order> newOrders = new ArrayList<>();
-        for (Order order: orders) {
-            if (order.getStatus() == OrderStatus.ACTIVE){
+        for (Order order : orders) {
+            if (order.getStatus() == OrderStatus.ACTIVE) {
                 newOrders.add(order);
             }
         }
@@ -80,13 +98,33 @@ public class OrderServiceImpl implements OrderService {
 
         if (Objects.equals(flag, "true")) {
             order.setStatus(OrderStatus.DONE);
-        }
-        else {
+        } else {
             order.setStatus(OrderStatus.CANCELED);
-            Product product = productRepository.findProductById(order.getProduct().getId());
-            product.setAmount(product.getAmount() + order.getAmount());
-            productRepository.save(product);
+            for (OrderItem item: order.getItems()) {
+                Product product = productRepository.findProductById(item.getProduct().getId());
+                product.setAmount(product.getAmount() + item.getAmount());
+                productRepository.save(product);
+            }
         }
         orderRepository.save(order);
+    }
+
+    @Override
+    public void changeCartStatus(String flag) throws UserIsNotLoggedInException {
+        Client client = (Client) authContextHandler.getLoggedInUser();
+        Order order = orderRepository.findAllByClient(client).stream()
+                .filter(ord -> ord.getStatus().equals(OrderStatus.BUILD))
+                .findFirst()
+                .orElse(null);
+
+        if (Objects.equals(flag, "true")) {
+            if (Objects.nonNull(order)) {
+                order.setStatus(OrderStatus.ACTIVE);
+            }
+        } else {
+            if (Objects.nonNull(order)) {
+                changeOrderInfo(String.valueOf(false), order.getId());
+            }
+        }
     }
 }

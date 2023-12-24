@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/admin/**").hasAuthority(Permission.PERMISSION_LEVEL_3.getPermission())
                     .antMatchers("/apothecary/**").hasAuthority(Permission.PERMISSION_LEVEL_2.getPermission())
                     .antMatchers("/client/**").hasAuthority(Permission.PERMISSION_LEVEL_1.getPermission())
-                    .antMatchers("/", "/find", "/medicine/{id}", "/pharmacy/{id}", "/auth/**").permitAll()
+                    .antMatchers("/", "/find", "/medicine/{id}", "/pharmacy/{id}", "/auth/**", "/api/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
