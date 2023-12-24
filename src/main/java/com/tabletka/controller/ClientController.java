@@ -46,9 +46,9 @@ public class ClientController {
 
     @GetMapping("/order_history")
     public String getOrdersHistory(final Model model) throws UserIsNotLoggedInException {
-        model.addAttribute("medicines",
+        model.addAttribute("orders",
                 orderServiceImpl.getOrdersHistory());
-        return "client/client_main";
+        return "client/order_history";
     }
 
 }

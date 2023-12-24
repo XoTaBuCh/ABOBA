@@ -28,7 +28,7 @@ public class TelegramController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody TelegramLoginRequest request) {
         try {
-            String role = authService.registerUserFromTelegram(request);
+            Role role = authService.registerUserFromTelegram(request);
             return ResponseEntity.ok(new TelegramLoginResponse(HttpStatus.SC_OK, role));
         } catch (Exception e) {
             return ResponseEntity.badRequest()

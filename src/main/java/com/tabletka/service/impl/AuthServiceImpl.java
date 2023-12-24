@@ -1,6 +1,7 @@
 package com.tabletka.service.impl;
 
 import com.tabletka.model.requests.TelegramLoginRequest;
+import com.tabletka.model.user.Role;
 import com.tabletka.model.user.User;
 import com.tabletka.repository.AdminRepository;
 import com.tabletka.repository.ApothecaryRepository;
@@ -22,24 +23,22 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public String registerUserFromTelegram(TelegramLoginRequest request) {
+    public Role registerUserFromTelegram(TelegramLoginRequest request) {
         User client = clientRepository.findByEmail(request.getLogin());
         User apothecary = apothecaryRepository.findByEmail(request.getLogin());
-        String role;
+        Role role;
 
         if (Objects.nonNull(apothecary)) {
-            String encodedPassword = passwordEncoder.encode(request.getPassword());
-            if (!encodedPassword.equals(apothecary.getPassword())) {
+            if (!passwordEncoder.matches(request.getPassword(), apothecary.getPassword())) {
                 throw new UsernameNotFoundException("Invalid password");
             }
             apothecary.setTelegramId(request.getTelegramId());
-            role = apothecary.getRole().toString();
+            role = apothecary.getRole();
         } else if (Objects.nonNull(client)) {
-            String encodedPassword = passwordEncoder.encode(request.getPassword());
-            if (!encodedPassword.equals(client.getPassword())) {
+            if (!passwordEncoder.matches(request.getPassword(), client.getPassword())) {
                 throw new UsernameNotFoundException("Invalid password");
             }
-            role = client.getRole().toString();
+            role = client.getRole();
             client.setTelegramId(request.getTelegramId());
         } else {
             throw new UsernameNotFoundException("User not found");

@@ -19,13 +19,13 @@ import java.util.Objects;
 @AllArgsConstructor
 public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
-    private final PasswordEncoder encoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void register(final Client client) {
         client.setStatus(Status.ACTIVE);
         client.setRole(Role.CLIENT);
-        client.setPassword(encoder.encode(client.getPassword()));
+        client.setPassword(passwordEncoder.encode(client.getPassword()));
         clientRepository.save(client);
     }
 
