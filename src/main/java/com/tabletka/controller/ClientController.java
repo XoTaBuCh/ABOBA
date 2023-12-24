@@ -39,7 +39,7 @@ public class ClientController {
     }
 
     @GetMapping("/shopping_cart/{orderId}")
-    public String checkOut(final Model model) throws UserIsNotLoggedInException {
+    public String checkOut(final Model model, @PathVariable String orderId) throws UserIsNotLoggedInException {
         model.addAttribute("price", orderServiceImpl.getOrderPrice());
         return "client/check_out";
     }

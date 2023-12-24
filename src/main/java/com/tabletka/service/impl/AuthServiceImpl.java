@@ -1,5 +1,7 @@
 package com.tabletka.service.impl;
 
+import com.tabletka.model.apothecary.Apothecary;
+import com.tabletka.model.client.Client;
 import com.tabletka.model.requests.TelegramLoginRequest;
 import com.tabletka.model.user.Role;
 import com.tabletka.model.user.User;
@@ -24,8 +26,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Role registerUserFromTelegram(TelegramLoginRequest request) {
-        User client = clientRepository.findByEmail(request.getLogin());
-        User apothecary = apothecaryRepository.findByEmail(request.getLogin());
+        Client client = clientRepository.findByEmail(request.getLogin());
+        Apothecary apothecary = apothecaryRepository.findByEmail(request.getLogin());
         Role role;
 
         if (Objects.nonNull(apothecary)) {
@@ -34,12 +36,14 @@ public class AuthServiceImpl implements AuthService {
             }
             apothecary.setTelegramId(request.getTelegramId());
             role = apothecary.getRole();
+            apothecaryRepository.save(apothecary);
         } else if (Objects.nonNull(client)) {
             if (!passwordEncoder.matches(request.getPassword(), client.getPassword())) {
                 throw new UsernameNotFoundException("Invalid password");
             }
             role = client.getRole();
             client.setTelegramId(request.getTelegramId());
+            clientRepository.save(client);
         } else {
             throw new UsernameNotFoundException("User not found");
         }
