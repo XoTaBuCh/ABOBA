@@ -2,6 +2,7 @@ package com.tabletka.controller;
 
 import com.tabletka.dto.OrderDto;
 import com.tabletka.mapper.OrderMapper;
+import com.tabletka.model.order.OrderStatus;
 import com.tabletka.model.requests.TelegramChangeStatusRequest;
 import com.tabletka.model.requests.TelegramLoginRequest;
 import com.tabletka.model.responses.TelegramApothecaryChangeStatusResponse;
@@ -58,7 +59,6 @@ public class TelegramController {
     @GetMapping("/apothecary/{telegramId}/getOrders")
     public ResponseEntity<?> apothecaryGetOrders(@PathVariable String telegramId) {
         try {
-            // получаем заказы
             List<OrderDto> orders = orderService.getTelegramOrdersHistory(telegramId)
                     .stream().map(OrderMapper::toOrderDto)
                     .collect(Collectors.toList());
@@ -74,12 +74,16 @@ public class TelegramController {
             @RequestBody TelegramChangeStatusRequest request
     ) {
         try {
-            // меняем статус заказа
+            if (request.getNewStatus().equals(OrderStatus.DONE.toString())) {
+                orderService.changeOrderInfo("true", Long.valueOf(request.getOrderId()));
+            } else {
+                orderService.changeOrderInfo("false", Long.valueOf(request.getOrderId()));
+            }
 
             return ResponseEntity.ok(new TelegramApothecaryChangeStatusResponse(HttpStatus.SC_OK));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(new TelegramApothecaryChangeStatusResponse(HttpStatus.SC_BAD_REQUEST, "Error"));
+                    .body(new TelegramApothecaryChangeStatusResponse(HttpStatus.SC_BAD_REQUEST, e.getMessage()));
         }
     }
 }
