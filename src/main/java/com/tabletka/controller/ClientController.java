@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -35,6 +36,12 @@ public class ClientController {
     public String clearShoppingCart(final String flag) throws UserIsNotLoggedInException {
         orderServiceImpl.changeCartStatus(flag);
         return "redirect:/client/shopping_cart";
+    }
+
+    @GetMapping("/shopping_cart/{orderId}")
+    public String checkOut(final Model model) throws UserIsNotLoggedInException {
+        model.addAttribute("price", orderServiceImpl.getOrderPrice());
+        return "client/check_out";
     }
 
     @GetMapping("/find")

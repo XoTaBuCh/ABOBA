@@ -80,6 +80,8 @@ public class OrderServiceImpl implements OrderService {
             order.setClient(client);
             order.setStatus(OrderStatus.BUILD);
             order.setPharmacy(product.getPharmacy());
+        } else if (product.getPharmacy().getId().equals(order.getPharmacy().getId())) {
+            return;
         }
 
         order.setPrice(order.getPrice() + (product.getPrice() * amount));
