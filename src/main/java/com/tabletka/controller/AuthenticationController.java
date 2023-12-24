@@ -48,17 +48,4 @@ public class AuthenticationController {
         return "auth/register";
     }
 
-    @GetMapping("/register_apothecary")
-    public String register_apothecary() {
-        return "auth/register_apothecary";
-    }
-
-    @PostMapping("/register_apothecary")
-    public String register_apothecary(final Apothecary apothecary, final Model model) {
-        apothecaryService.register(apothecary);
-        model.addAttribute("registerSuccess",
-                "You applied for registration, after approving your request, you can sign in service");
-
-        return "auth/register_apothecary";
-    }
 }
