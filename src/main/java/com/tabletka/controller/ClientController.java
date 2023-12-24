@@ -27,13 +27,14 @@ public class ClientController {
     public String shoppingCart(final Model model) throws UserIsNotLoggedInException {
         model.addAttribute("orders",
                 orderServiceImpl.getCartForClient());
+        model.addAttribute("price", orderServiceImpl.getOrderPrice());
         return "client/shopping_cart";
     }
 
     @PostMapping("/shopping_cart/change_status")
     public String clearShoppingCart(final String flag) throws UserIsNotLoggedInException {
         orderServiceImpl.changeCartStatus(flag);
-        return "redirect:client/shopping_cart";
+        return "redirect:/client/shopping_cart";
     }
 
     @GetMapping("/find")

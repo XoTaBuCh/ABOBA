@@ -40,6 +40,15 @@ public class OrderServiceImpl implements OrderService {
                 .orElse(null);
     }
 
+    public Double getOrderPrice() throws UserIsNotLoggedInException {
+        List<Order> orders = ((Client) authContextHandler.getLoggedInUser()).getOrders();
+        return orders.stream()
+                .filter(order -> order.getStatus().equals(OrderStatus.BUILD))
+                .map(Order::getPrice)
+                .findFirst()
+                .orElse(null);
+    }
+
     @Override
     public List<Order> getOrdersForPharmacy(Long pharmacyId) {
         Pharmacy pharmacy = pharmacyRepository.findPharmacyById(pharmacyId);
@@ -57,6 +66,7 @@ public class OrderServiceImpl implements OrderService {
 
         if (Objects.isNull(order)) {
             order = new Order();
+            order.setPrice((double) 0);
             order.setClient(client);
             order.setStatus(OrderStatus.BUILD);
             order.setPharmacy(product.getPharmacy());
@@ -120,11 +130,13 @@ public class OrderServiceImpl implements OrderService {
         if (Objects.equals(flag, "true")) {
             if (Objects.nonNull(order)) {
                 order.setStatus(OrderStatus.ACTIVE);
+                orderRepository.save(order);
             }
         } else {
             if (Objects.nonNull(order)) {
                 changeOrderInfo(String.valueOf(false), order.getId());
             }
         }
+
     }
 }
