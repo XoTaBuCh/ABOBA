@@ -5,15 +5,16 @@ import com.tabletka.exception.PasswordChangeException;
 import com.tabletka.exception.UserIsNotLoggedInException;
 import com.tabletka.model.admin.Admin;
 import com.tabletka.model.apothecary.Apothecary;
+import com.tabletka.model.apothecary_admin.ApothecaryAdmin;
 import com.tabletka.model.client.Client;
 import com.tabletka.model.user.User;
 import com.tabletka.repository.AdminRepository;
+import com.tabletka.repository.ApothecaryAdminRepository;
 import com.tabletka.repository.ApothecaryRepository;
 import com.tabletka.repository.ClientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,7 @@ public class AuthContextHandler {
     private final ClientRepository clientRepository;
     private final ApothecaryRepository apothecaryRepository;
     private final PasswordEncoder encoder;
+    private final ApothecaryAdminRepository apothecaryAdminRepository;
 
     public User getLoggedInUser() throws UserIsNotLoggedInException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -34,12 +36,16 @@ public class AuthContextHandler {
         Optional<User> admin = Optional.ofNullable(adminRepository.findByEmail(email));
         Optional<User> client = Optional.ofNullable(clientRepository.findByEmail(email));
         Optional<User> apothecary = Optional.ofNullable(apothecaryRepository.findByEmail(email));
-        if (!admin.isEmpty()) {
+        Optional<User> apothecaryAdmin = Optional.ofNullable(apothecaryAdminRepository.findByEmail(email));
+
+        if (admin.isPresent()) {
             return admin.get();
-        } else if (!client.isEmpty()) {
+        } else if (client.isPresent()) {
             return client.get();
-        } else if (!apothecary.isEmpty()) {
+        } else if (apothecary.isPresent()) {
             return apothecary.get();
+        } else if (apothecaryAdmin.isPresent()) {
+            return apothecaryAdmin.get();
         } else {
             throw new UserIsNotLoggedInException();
         }
@@ -62,6 +68,9 @@ public class AuthContextHandler {
             }
             case APOTHECARY -> {
                 apothecaryRepository.save((Apothecary) user);
+            }
+            case APOTHECARY_ADMIN -> {
+                apothecaryAdminRepository.save((ApothecaryAdmin) user);
             }
             case ADMIN -> {
                 adminRepository.save((Admin) user);

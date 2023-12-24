@@ -30,7 +30,6 @@ public class AdminController {
 
     @GetMapping("/requests")
     public String getRequests(final Model model) {
-        model.addAttribute("registryRequests", requestService.getRegistryRequests());
         model.addAttribute("pharmacyCreatingRequests", requestService.getPharmacyCreatingRequests());
         return "admin/admin_requests";
     }

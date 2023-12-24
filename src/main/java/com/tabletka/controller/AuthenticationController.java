@@ -1,17 +1,14 @@
 package com.tabletka.controller;
 
-import com.tabletka.exception.UserIsNotLoggedInException;
 import com.tabletka.exception.UserNotUniqueException;
 import com.tabletka.model.apothecary.Apothecary;
 import com.tabletka.model.client.Client;
-import com.tabletka.model.medicine.Medicine;
 import com.tabletka.service.impl.ApothecaryServiceImpl;
 import com.tabletka.service.impl.ClientServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 

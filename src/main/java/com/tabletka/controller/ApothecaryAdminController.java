@@ -1,10 +1,8 @@
 package com.tabletka.controller;
 
 import com.tabletka.exception.UserIsNotLoggedInException;
-import com.tabletka.model.apothecary.Apothecary;
 import com.tabletka.model.pharmacy.Pharmacy;
 import com.tabletka.service.PharmacyService;
-import com.tabletka.service.impl.PharmacyServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,16 +11,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/apothecary")
+@RequestMapping("/apothecary_admin")
 @AllArgsConstructor
-public class ApothecaryController {
+public class ApothecaryAdminController {
 
     private final PharmacyService pharmacyService;
 
     @GetMapping("")
     public String main(final Model model) throws UserIsNotLoggedInException {
         model.addAttribute("pharmacies",
-                pharmacyService.getPharmaciesForApothecary());
+                pharmacyService.getPharmaciesForAdminApothecary());
         return "apothecary/apothecary_main";
     }
 

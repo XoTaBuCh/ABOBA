@@ -19,7 +19,7 @@ public class PharmacyCreationRequest {
     private Long id;
     private String name;
     private String address;
-    private Long apothecaryId;
+    private Long apothecaryAdminId;
 
     @Enumerated(value = EnumType.STRING)
     private RequestStatus requestStatus;

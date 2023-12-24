@@ -4,9 +4,11 @@ import com.tabletka.dto.PasswordChangeDTO;
 import com.tabletka.exception.PasswordChangeException;
 import com.tabletka.exception.UserIsNotLoggedInException;
 import com.tabletka.exception.UserNotUniqueException;
+import com.tabletka.model.apothecary.Apothecary;
 import com.tabletka.model.user.User;
 import com.tabletka.security.AuthContextHandler;
 import com.tabletka.service.MedicineService;
+import com.tabletka.service.PharmacyService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,7 @@ public class MainController {
 
     private final AuthContextHandler authContextHandler;
     private final MedicineService medicineService;
+    private final PharmacyService pharmacyService;
 
     @GetMapping("")
     public String main() {
@@ -31,7 +34,10 @@ public class MainController {
                     return "redirect:client";
                 }
                 case APOTHECARY -> {
-                    return "redirect:apothecary";
+                    return "redirect:pharmacy/" + ((Apothecary)user).getPharmacy().getId();
+                }
+                case APOTHECARY_ADMIN -> {
+                    return "redirect:apothecary_admin";
                 }
                 case ADMIN -> {
                     return "redirect:admin";
