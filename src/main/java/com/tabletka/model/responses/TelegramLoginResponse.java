@@ -2,15 +2,17 @@ package com.tabletka.model.responses;
 
 import com.tabletka.model.user.Role;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class TelegramLoginResponse {
-    public int status;
-    public String error;
+    private int status;
+    private String error;
 
-    public Role role;
+    private Role role;
 
     public TelegramLoginResponse(int status, Role role) {
         this.status = status;

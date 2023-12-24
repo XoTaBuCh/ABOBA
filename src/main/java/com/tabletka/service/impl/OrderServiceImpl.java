@@ -1,12 +1,15 @@
 package com.tabletka.service.impl;
 
 import com.tabletka.exception.UserIsNotLoggedInException;
+import com.tabletka.model.apothecary.Apothecary;
 import com.tabletka.model.client.Client;
 import com.tabletka.model.order.Order;
 import com.tabletka.model.order.OrderItem;
 import com.tabletka.model.order.OrderStatus;
 import com.tabletka.model.pharmacy.Pharmacy;
 import com.tabletka.model.product.Product;
+import com.tabletka.repository.ApothecaryRepository;
+import com.tabletka.repository.ClientRepository;
 import com.tabletka.repository.OrderItemRepository;
 import com.tabletka.repository.OrderRepository;
 import com.tabletka.repository.PharmacyRepository;
@@ -29,6 +32,8 @@ public class OrderServiceImpl implements OrderService {
     private final PharmacyRepository pharmacyRepository;
     private final AuthContextHandler authContextHandler;
     private final OrderItemRepository orderItemRepository;
+    private final ClientRepository clientRepository;
+    private final ApothecaryRepository apothecaryRepository;
 
 
     @Override
@@ -57,6 +62,26 @@ public class OrderServiceImpl implements OrderService {
         return orders.stream()
                 .filter(order -> !order.getStatus().equals(OrderStatus.BUILD))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Order> getTelegramOrdersHistory(String telegramId) throws UserIsNotLoggedInException {
+        Client client = clientRepository.findClientByTelegramId(telegramId);
+        Apothecary apothecary = apothecaryRepository.findApothecaryByTelegramId(telegramId);
+
+        if (Objects.nonNull(client)) {
+            List<Order> orders = client.getOrders();
+            return orders.stream()
+                    .filter(order -> !order.getStatus().equals(OrderStatus.BUILD))
+                    .collect(Collectors.toList());
+        } else if (Objects.nonNull(apothecary)) {
+            List<Order> orders = apothecary.getPharmacy().getOrders();
+            return orders.stream()
+                    .filter(order -> order.getStatus().equals(OrderStatus.ACTIVE))
+                    .collect(Collectors.toList());
+        }
+        throw new UserIsNotLoggedInException("No such client");
+
     }
 
     @Override

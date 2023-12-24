@@ -9,9 +9,12 @@ import java.util.List;
 
 public interface OrderService {
     List<OrderItem> getCartForClient() throws UserIsNotLoggedInException;
+
     Double getOrderPrice() throws UserIsNotLoggedInException;
 
     List<Order> getOrdersHistory() throws UserIsNotLoggedInException;
+
+    List<Order> getTelegramOrdersHistory(String telegramId) throws UserIsNotLoggedInException;
 
     List<Order> getOrdersForPharmacy(Long pharmacyId);
 
