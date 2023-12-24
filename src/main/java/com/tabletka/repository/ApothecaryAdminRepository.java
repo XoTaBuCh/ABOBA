@@ -1,6 +1,6 @@
 package com.tabletka.repository;
 
-import com.tabletka.model.apothecary_admin.ApothecaryAdmin;
+import com.tabletka.model.apothecaryAdmin.ApothecaryAdmin;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ApothecaryAdminRepository extends JpaRepository<ApothecaryAdmin, Long> {

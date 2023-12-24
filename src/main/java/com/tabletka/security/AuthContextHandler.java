@@ -5,7 +5,7 @@ import com.tabletka.exception.PasswordChangeException;
 import com.tabletka.exception.UserIsNotLoggedInException;
 import com.tabletka.model.admin.Admin;
 import com.tabletka.model.apothecary.Apothecary;
-import com.tabletka.model.apothecary_admin.ApothecaryAdmin;
+import com.tabletka.model.apothecaryAdmin.ApothecaryAdmin;
 import com.tabletka.model.client.Client;
 import com.tabletka.model.user.User;
 import com.tabletka.repository.AdminRepository;

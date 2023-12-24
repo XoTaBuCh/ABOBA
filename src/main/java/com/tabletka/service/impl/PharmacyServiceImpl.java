@@ -1,8 +1,7 @@
 package com.tabletka.service.impl;
 
 import com.tabletka.exception.UserIsNotLoggedInException;
-import com.tabletka.model.apothecary.Apothecary;
-import com.tabletka.model.apothecary_admin.ApothecaryAdmin;
+import com.tabletka.model.apothecaryAdmin.ApothecaryAdmin;
 import com.tabletka.model.order.Order;
 import com.tabletka.model.order.OrderStatus;
 import com.tabletka.model.pharmacy.Pharmacy;

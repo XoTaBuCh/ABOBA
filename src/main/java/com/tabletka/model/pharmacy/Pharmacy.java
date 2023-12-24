@@ -1,7 +1,7 @@
 package com.tabletka.model.pharmacy;
 
 import com.tabletka.model.apothecary.Apothecary;
-import com.tabletka.model.apothecary_admin.ApothecaryAdmin;
+import com.tabletka.model.apothecaryAdmin.ApothecaryAdmin;
 import com.tabletka.model.order.Order;
 import com.tabletka.model.product.Product;
 import lombok.AllArgsConstructor;
@@ -48,6 +48,6 @@ public class Pharmacy {
     @ManyToOne(fetch = FetchType.EAGER)
     private ApothecaryAdmin apothecaryAdmin;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pharmacy", cascade = CascadeType.ALL)
-    private List<Apothecary> apothecaries;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pharmacy", cascade = CascadeType.ALL)
+    private List<Apothecary> apothecaries = new ArrayList<>();
 }
