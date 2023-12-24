@@ -1,5 +1,6 @@
 package com.tabletka.service.impl;
 
+import com.tabletka.dto.ForecastDto;
 import com.tabletka.exception.UserIsNotLoggedInException;
 import com.tabletka.model.apothecaryAdmin.ApothecaryAdmin;
 import com.tabletka.model.order.Order;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -78,6 +81,7 @@ public class PharmacyServiceImpl implements PharmacyService {
     @Override
     public void addProduct(Long pharmacyId, Long medicineId, Long amount, Double price) {
         Product product = new Product();
+        product.setPurchasedProducts(0L);
         product.setAmount(amount);
         product.setPrice(price);
         product.setPharmacy(pharmacyRepository.findPharmacyById(pharmacyId));
@@ -113,6 +117,29 @@ public class PharmacyServiceImpl implements PharmacyService {
     @Override
     public List<Pharmacy> getPharmacies() {
         return pharmacyRepository.findAll();
+    }
+
+    @Override
+    public List<ForecastDto> getForecast(Long pId) {
+        List<Product> products = pharmacyRepository.getById(pId).getProducts();
+
+        return products.stream().map(product -> {
+            List<Long> forecast = new ArrayList<>();
+            for(long index = 0L; index < 12L; index++) {
+                forecast.add(Math.max(0, product.getPurchasedProducts() + getRandomValue()));
+            }
+            ForecastDto forecastDto = new ForecastDto();
+            forecastDto.setForecast(forecast);
+            forecastDto.setProduct(product);
+
+            return forecastDto;
+        }).collect(Collectors.toList());
+    }
+
+    private int getRandomValue() {
+        Random random = new Random();
+        int value = random.nextInt() % 10;
+        return value - 5;
     }
 
 }

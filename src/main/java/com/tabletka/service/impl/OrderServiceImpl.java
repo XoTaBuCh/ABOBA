@@ -120,6 +120,7 @@ public class OrderServiceImpl implements OrderService {
 
         } else {
             product.setAmount(product.getAmount() - amount);
+            product.setPurchasedProducts(product.getPurchasedProducts() + amount);
         }
 
         productRepository.save(product);

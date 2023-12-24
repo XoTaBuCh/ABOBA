@@ -13,6 +13,7 @@ import com.tabletka.service.OrderService;
 import com.tabletka.service.PharmacyService;
 import com.tabletka.service.ProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -91,4 +92,9 @@ public class PharmacyController {
         return "redirect:/pharmacy/" + phId.toString() + "/orders";
     }
 
+    @GetMapping("/{pId}/forecast")
+    public String getForecast(@PathVariable Long pId, final Model model) {
+        model.addAttribute("orders", pharmacyService.getForecast(pId));
+        return "pharmacy/forecast";
+    }
 }

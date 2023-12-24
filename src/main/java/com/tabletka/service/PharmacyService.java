@@ -1,5 +1,6 @@
 package com.tabletka.service;
 
+import com.tabletka.dto.ForecastDto;
 import com.tabletka.exception.UserIsNotLoggedInException;
 import com.tabletka.model.apothecary.Apothecary;
 import com.tabletka.model.order.Order;
@@ -26,4 +27,6 @@ public interface PharmacyService {
     void changePharmacyNameAddress(String name, String address, Long pharmacyId);
 
     List<Pharmacy> getPharmacies();
+
+    List<ForecastDto> getForecast(Long pId);
 }

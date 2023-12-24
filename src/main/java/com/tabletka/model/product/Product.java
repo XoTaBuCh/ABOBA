@@ -33,6 +33,7 @@ public class Product {
 
     private Double price;
     private Long amount;
+    private Long purchasedProducts;
     @ManyToOne(fetch = FetchType.EAGER)
     private Pharmacy pharmacy;
     @ManyToOne(fetch = FetchType.EAGER)
