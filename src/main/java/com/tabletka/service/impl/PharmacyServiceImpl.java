@@ -121,7 +121,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 
     @Override
     public List<ForecastDto> getForecast(Long pId) {
-        List<Product> products = pharmacyRepository.getById(pId).getProducts();
+        List<Product> products = pharmacyRepository.findPharmacyById(pId).getProducts();
 
         return products.stream().map(product -> {
             List<Long> forecast = new ArrayList<>();

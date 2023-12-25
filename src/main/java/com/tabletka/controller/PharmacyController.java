@@ -1,6 +1,7 @@
 package com.tabletka.controller;
 
 import com.tabletka.exception.UserIsNotLoggedInException;
+import com.tabletka.model.apothecary.Apothecary;
 import com.tabletka.model.client.Client;
 import com.tabletka.model.medicine.Medicine;
 import com.tabletka.model.medicine.MedicinesType;
@@ -35,10 +36,13 @@ public class PharmacyController {
     @GetMapping("/{id}")
     public String mainPharmacy(@PathVariable Long id, Model model) {
         User user;
+        String flag = null;
         try {
             user = authContextHandler.getLoggedInUser();
-            if(user.getClass() == Client.class){
+            if (user.getClass() == Client.class) {
                 user = null;
+            } else if (user.getClass() == Apothecary.class) {
+                flag = "true";
             }
         } catch (UserIsNotLoggedInException e) {
             user = null;
@@ -46,6 +50,7 @@ public class PharmacyController {
         Pharmacy pharmacy = pharmacyService.getPharmacyById(id);
         List<Product> products = productService.getProductsForPharmacy(pharmacy);
         model.addAttribute("user", user);
+        model.addAttribute("flag", flag);
         model.addAttribute("pharmacy", pharmacy);
         model.addAttribute("products", products.isEmpty() ? null : products);
 
@@ -94,7 +99,7 @@ public class PharmacyController {
 
     @GetMapping("/{pId}/forecast")
     public String getForecast(@PathVariable Long pId, final Model model) {
-        model.addAttribute("orders", pharmacyService.getForecast(pId));
+        model.addAttribute("products", pharmacyService.getForecast(pId));
         return "pharmacy/forecast";
     }
 }

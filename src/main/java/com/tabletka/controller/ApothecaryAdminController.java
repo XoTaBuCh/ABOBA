@@ -24,13 +24,13 @@ public class ApothecaryAdminController {
     public String main(final Model model) throws UserIsNotLoggedInException {
         model.addAttribute("pharmacies",
                 pharmacyService.getPharmaciesForAdminApothecary());
-        return "apothecary/apothecary_main";
+        return "apothecaryAdmin/apothecary_admin_main";
     }
 
 
     @GetMapping("/add_pharmacy")
     public String add_pharmacy() {
-        return "apothecary/add_pharmacy";
+        return "apothecaryAdmin/add_pharmacy";
     }
 
     @PostMapping("/add_pharmacy")
@@ -39,7 +39,7 @@ public class ApothecaryAdminController {
         model.addAttribute("registerSuccess",
                 "true");
 
-        return "apothecary/add_pharmacy";
+        return "apothecaryAdmin/add_pharmacy";
     }
 
     @GetMapping("/register_apothecary")
@@ -47,7 +47,7 @@ public class ApothecaryAdminController {
         model.addAttribute("pharmacies",
                 pharmacyService.getPharmaciesForAdminApothecary());
 
-        return "apothecaryAdmin/register_apothecary";
+        return "apothecaryAdmin/add_apothecary";
     }
 
     @PostMapping("/register_apothecary")

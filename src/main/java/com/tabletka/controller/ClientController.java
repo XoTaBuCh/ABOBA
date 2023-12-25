@@ -38,8 +38,8 @@ public class ClientController {
         return "redirect:/client/shopping_cart";
     }
 
-    @GetMapping("/shopping_cart/{orderId}")
-    public String checkOut(final Model model, @PathVariable String orderId) throws UserIsNotLoggedInException {
+    @GetMapping("/shopping_cart/check_out")
+    public String checkOut(final Model model) throws UserIsNotLoggedInException {
         model.addAttribute("price", orderServiceImpl.getOrderPrice());
         return "client/check_out";
     }

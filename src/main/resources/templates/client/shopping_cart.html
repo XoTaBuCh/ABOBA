@@ -41,12 +41,11 @@
         <span class="badge bg-primary rounded-pill" th:text="${order.product.price}"></span>
     </li>
     <h1 th:text="'Общая стоимость: ' + ${price}"></h1>
-    <form th:action="@{/client/shopping_cart/change_status}" th:method="post" style="display: inline;" th:if="${orders != null}">
-        <input type="hidden" th:name="flag" th:value="true"> <!-- Параметры, которые нужно отправить в POST-запросе -->
-        <button type="submit" class="btn btn-primary">Оформить заказ</button>
+    <form th:action="@{/client/shopping_cart/check_out}" th:method="get" style="display: inline;">
+        <button type="submit" class="btn btn-primary">Перейти к оплате</button>
     </form>
     <!-- Вторая кнопка -->
-    <form th:action="@{/client/shopping_cart/change_status}" th:method="post" style="display: inline;" th:if="${orders != null}">
+    <form th:action="@{/client/shopping_cart/change_status}" th:method="post" style="display: inline;">
         <input type="hidden" th:name="flag" th:value="false"> <!-- Параметры, которые нужно отправить в POST-запросе -->
         <button type="submit" class="btn btn-secondary">Очистить корзину</button>
     </form>
